@@ -5,7 +5,7 @@ def main():
             choice = input("=> ")
             if not choice.isdigit():
                 print("your answer has to be a number")
-            elif choice != "1" and choice != "2":
+            elif choice != "1" and choice != "2" and choice != "3":
                 print("please chose from the given options 1 or 2")
             else:
                 break
@@ -14,11 +14,34 @@ def main():
             print("something went wrong\n it's not you it's us")
     if choice == "1":
             login()
+    elif choice =="2":
+        signup()
     else:
-            signup()
+        print("goodbye")
 
 def login():
-    print("coming soon!")
+    while True:
+        name = input("name: ")
+        with open("python/level1/users.txt", "r") as file:
+            open_file = file.readlines()
+            new_list = []
+            for x in open_file:
+                new_list.append(x.strip().split(" "))
+            list_of_names= []
+            for x in new_list:
+                list_of_names.append(x[0])
+        if name not in list_of_names:
+            print("username does not exist")
+            ans = input("try again? y/n")
+            if ans == "n":
+                print("good bye!")
+                break
+            else:
+                continue
+        else:
+            print("login succeful!")
+        
+    
 
 def signup():
     while True:
@@ -58,4 +81,4 @@ def signup():
         elif answer == "n":
             print("good bye!")
         break    
-signup()
+main()
