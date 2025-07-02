@@ -41,7 +41,23 @@ def login():
             else:
                 continue
         else:
-            print("login succeful!")
+            chances = 3
+            while chances > 1:
+                entered = input("Enter password: ").encode('utf-8')
+                index = list_of_names.index(name)
+                hashed = new_list[index][1].encode('utf-8')
+                if bcrypt.checkpw(entered, hashed):
+                    print("Access granted!")
+                    break
+                elif chances < 1:
+                    print("login failed!")
+                    break
+                else:
+                    print("Access denied.")
+                    chances-=1
+                    print(f"you have {chances} remaining")
+        break
+            
         
     
 
@@ -72,7 +88,7 @@ def signup():
                 break
         password = password.encode('utf-8')
         hashed = bcrypt.hashpw(password, bcrypt.gensalt())
-        file2.write(f"\n{name} {hashed}")
+        file2.write(f"\n{name} {hashed.decode()}")
         print("signup complete")
     
     print("would you like to login? y/n")
@@ -85,4 +101,4 @@ def signup():
         elif answer == "n":
             print("good bye!")
         break    
-main()
+signup()
