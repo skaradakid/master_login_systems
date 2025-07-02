@@ -1,3 +1,5 @@
+import bcrypt #for hashing passwords
+
 def main():
     print("welome to lockedout!\ninput 1 for loging in\ninput 2 for registering")
     while True:
@@ -5,8 +7,8 @@ def main():
             choice = input("=> ")
             if not choice.isdigit():
                 print("your answer has to be a number")
-            elif choice != "1" and choice != "2" and choice != "3":
-                print("please chose from the given options 1 or 2")
+            elif choice != "1" and choice != "2":
+                print("please chose from the given options \n1(login)\n2(register)")
             else:
                 break
                 
@@ -68,7 +70,9 @@ def signup():
             else:
                 print("passwords matched!")
                 break
-        file2.write(f"\n{name} {password}")
+        password = password.encode('utf-8')
+        hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+        file2.write(f"\n{name} {hashed}")
         print("signup complete")
     
     print("would you like to login? y/n")
