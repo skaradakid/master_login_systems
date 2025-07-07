@@ -43,9 +43,9 @@ def login():
         else:
             chances = 3
             while chances > 1:
-                entered = input("Enter password: ").encode('utf-8')
+                entered = input("Enter password: ")
                 index = list_of_names.index(name)
-                hashed = new_list[index][1]
+                hashed = decrypt(new_list[index][1])
                 if entered == hashed:
                     print("Access granted!")
                     break
@@ -86,7 +86,7 @@ def signup():
             else:
                 print("passwords matched!")
                 break
-        file2.write(f"\n{name} {password}")
+        file2.write(f"\n{name} {encrypt(password)}")
         print("signup complete")
     
     print("would you like to login? y/n")
@@ -115,11 +115,10 @@ def encrypt(password):
 def decrypt(password):
     new_string = ""
     for x in password:
-        print(x)
         if x in allowed_characters:
             new_string+= allowed_characters[(allowed_characters.index(x) - 13) % len(allowed_characters)]
         else:
             new_string+="@"
     return new_string
 
-print(decrypt("mrv28"))
+main()
