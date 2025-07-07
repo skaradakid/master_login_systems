@@ -1,4 +1,5 @@
-allowed_characters = ['1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f','g','h','i','j','k','l','n','m','o','p','q','r','s','t','u','v','w','x','y','z']
+import bcrypt #for hashing passwords
+
 
 def main():
     print("welome to lockedout!\ninput 1 for loging in\ninput 2 for registering")
@@ -45,8 +46,8 @@ def login():
             while chances > 1:
                 entered = input("Enter password: ").encode('utf-8')
                 index = list_of_names.index(name)
-                hashed = new_list[index][1]
-                if entered == hashed:
+                hashed = new_list[index][1].encode('utf-8')
+                if bcrypt.checkpw(entered, hashed):
                     print("Access granted!")
                     break
                 elif chances < 1:
@@ -64,7 +65,7 @@ def login():
 def signup():
     while True:
         name = input("name: ")
-        with open("python/level1/users.txt", "r") as file:
+        with open("python/level2/users.txt", "r") as file:
             open_file = file.readlines()
             new_list = []
             for x in open_file:
@@ -77,8 +78,9 @@ def signup():
         else:
             break
                 
-    with open("python/level1/users.txt", "a") as file2:
+    with open("python/level2/users.txt", "a") as file2:
         while True:
+            print("note that password can not have special characters")
             password = input("password: ")
             password2 = input("confirm password: ")
             if password != password2:
@@ -86,7 +88,9 @@ def signup():
             else:
                 print("passwords matched!")
                 break
-        file2.write(f"\n{name} {password}")
+        password = password.encode('utf-8')
+        hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+        file2.write(f"\n{name} {hashed.decode()}")
         print("signup complete")
     
     print("would you like to login? y/n")
@@ -98,28 +102,4 @@ def signup():
             login()
         elif answer == "n":
             print("good bye!")
-        break    
-
-def encrypt(password):
-    new_string = ""
-    for x in password:
-        print(x)
-        if x in allowed_characters:
-            new_string+= allowed_characters[(allowed_characters.index(x) + 13) % len(allowed_characters)]
-        else:
-            new_string+="@"
-    return new_string
-
-
-
-def decrypt(password):
-    new_string = ""
-    for x in password:
-        print(x)
-        if x in allowed_characters:
-            new_string+= allowed_characters[(allowed_characters.index(x) - 13) % len(allowed_characters)]
-        else:
-            new_string+="@"
-    return new_string
-
-print(decrypt("mrv28"))
+        break
