@@ -103,7 +103,6 @@ def signup():
 def encrypt(password):
     new_string = ""
     for x in password:
-        print(x)
         if x in allowed_characters:
             new_string+= allowed_characters[(allowed_characters.index(x) + 13) % len(allowed_characters)]
         else:
