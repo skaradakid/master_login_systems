@@ -1,0 +1,16 @@
+# Virtual environment
+venv/
+
+#  Python cache and logs
+__pycache__/
+*.py[cod]
+*.log
+
+# IDE/editor files (optional extras)
+.vscode/
+*.swp
+*.sublime-project
+*.sublime-workspace
+
+# Environment files
+.env
